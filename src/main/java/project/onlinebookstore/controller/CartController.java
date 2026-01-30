@@ -18,12 +18,12 @@ public class CartController {
             return cartService.getById(id);
         }
 
-        @PostMapping("/{userId}")
+        @PostMapping("/{userId}/items")
         public CartDto addItemToCart(@PathVariable Long userId,
                                      @RequestBody CartItemRequestDto itemRequestDto) {
             return cartService.addItemToCart(userId, itemRequestDto);
         }
-        @DeleteMapping("/cart/remove/{cartItemId}")
+        @DeleteMapping("/cart/items/{cartItemId}")
         public CartDto removeItemFromCart(@PathVariable Long cartItemId) {
             return cartService.removeItemFromCart(cartItemId);
         }

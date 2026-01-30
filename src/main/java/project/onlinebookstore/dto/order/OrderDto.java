@@ -15,11 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderDto {
 
-
         private Long id;
-        private Long userId;
-        private Long orderId;
-        private Long bookId;
         private Integer quantity;
         private Double totalPrice;
         private OrderStatus orderStatus;

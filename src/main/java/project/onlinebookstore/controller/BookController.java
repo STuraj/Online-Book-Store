@@ -29,7 +29,7 @@ public class BookController {
         @GetMapping
         public List<BookDto> getAllBooks() {
 
-            return List.of();
+            return bookService.getAllBooks();
         }
 
         @PutMapping("/{id}")
