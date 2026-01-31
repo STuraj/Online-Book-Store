@@ -1,7 +1,7 @@
 package project.onlinebookstore.enums;
 
 public enum OrderStatus {
-    NEW,
+    CREATED,
     PAID,
     SHIPPED,
     DELIVERED,

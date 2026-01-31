@@ -44,7 +44,7 @@ public class CartService {
                     .orElseThrow(() -> new NotFoundException("Book not found"));
 
             // Sebetde bu kitab artiq varmi
-            CartItem cartItem = cartItemRepository.findByCartIdAndBookId(cart.getId(),
+            CartItem cartItem = cartItemRepository.findByCart_IdAndBook_Id(cart.getId(),
                     book.getId())
                     .orElse(null);
 
@@ -57,7 +57,7 @@ public class CartService {
 
                 cartItem = new CartItem();
                 cartItem.setCart(cart);
-                cartItem.setBooks(book);
+                cartItem.setBook(book);
                 cartItem.setQuantity(itemRequestDto.getQuantity());
                 cart.getCartItems().add(cartItem);
                
@@ -98,7 +98,7 @@ public class CartService {
 
     private void updateCartTotalPrice(Cart cart) {
             double totalPrice = cart.getCartItems().stream()
-                            .mapToDouble(cartItem -> cartItem.getBooks().getPrice() * cartItem.getQuantity())
+                            .mapToDouble(cartItem -> cartItem.getBook().getPrice() * cartItem.getQuantity())
                                     .sum();
             cart.setTotalPrice(totalPrice);
 

@@ -22,4 +22,10 @@ public class OrderDto {
 
         List<OrderItemDto> orderItemDto;
 
+    public OrderDto(Long id, OrderStatus orderStatus, Double totalPrice) {
+        this.id = id;
+        this.orderStatus = orderStatus;
+        this.totalPrice = totalPrice;
+
     }
+}

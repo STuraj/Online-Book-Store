@@ -25,8 +25,8 @@ public class OrderController {
 
     }
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Long id) {
-        return orderService.getById(id);
+    public OrderDto getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id);
 
     }
 
@@ -36,12 +36,12 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/cancel")
-    public OrderDto cancelOrder(@PathVariable Long id) {
-        return orderService.getCancelOrder(id);
+    public void cancelOrder(@PathVariable Long id) {
+        orderService.cancelOrder(id);
     }
 
     @GetMapping("/all")
-    public List<OrderItemDto> getAllOrders() {
+    public List<OrderDto> getAllOrders() {
         return orderService.getAllOrders();
     }
 }
