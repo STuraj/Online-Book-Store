@@ -10,17 +10,15 @@ import project.onlinebookstore.service.UserService;
 @RequiredArgsConstructor
 public class UserController {
 
-private final UserService userService;
+    private final UserService userService;
 
-@GetMapping("/{id}")
+    @GetMapping("/{id}")
     public User getById(@PathVariable Long id) {
-    return userService.getById(id);
-}
+        return userService.getById(id);
+    }
 
-@DeleteMapping("/{id}")
-        public void deleteUser(@PathVariable Long id){
-    userService.delete(id);
-        }
-
-
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+    }
 }
