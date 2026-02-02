@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import project.onlinebookstore.dto.wishlist.WishlistDto;
 import project.onlinebookstore.dto.wishlist.WishlistRequestDto;
+import project.onlinebookstore.entity.Book;
 import project.onlinebookstore.service.WishlistService;
 
 import java.util.List;
@@ -13,20 +14,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WishlistController {
 
-            private final WishlistService wishlistService;
+    private final WishlistService wishlistService;
 
-        @GetMapping("/{id}")
-        public WishlistDto getWishlistById(@PathVariable Long id) {
-            return wishlistService.getWishlistById(id);
+
+    @PostMapping("/{userId}/{bookId}")
+    public WishlistDto addWishlist(@PathVariable Long userId, @PathVariable Long bookId) {
+        wishlistService.addWishlist(userId, bookId);
+return wishlistService.addWishlist(userId, bookId);
+    }
+
+        @GetMapping("/{userId}")
+        public List<WishlistDto> getUserWishlist(@PathVariable Long userId) {
+            return wishlistService.getUserWishlist(userId);
         }
 
-        @GetMapping("/all")
-        public List<WishlistDto> getAll() {
-            return wishlistService.getAll();
+        @DeleteMapping("/wishlistId")
+    public void removeFromWishlist(@PathVariable Long wishlistId) {
+wishlistService.removeFromWishlist(wishlistId);
 
-        }
-        @PostMapping("/add")
-        public WishlistDto addWishlist(@RequestBody WishlistRequestDto wishlistRequestDto) {
-            return wishlistService.addWishlist(wishlistRequestDto);
         }
 }

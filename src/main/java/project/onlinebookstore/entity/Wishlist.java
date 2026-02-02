@@ -22,6 +22,8 @@ public class Wishlist {
         @JoinColumn(name = "user_id")
         private User user;
 
-        @OneToMany
-        private List<Book> books;
+        @ManyToOne
+        private Book book;
+
+
 }

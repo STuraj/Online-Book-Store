@@ -8,7 +8,18 @@ import project.onlinebookstore.entity.Wishlist;
 @Mapper(componentModel = "spring")
 public interface WishlistMapper {
 
-        WishlistDto mapToDto(Wishlist wishlist);
+    WishlistDto mapToDto(Wishlist wishlist);
 
-        Wishlist mapToEntity(WishlistRequestDto wishlistRequestDto);
+    Wishlist mapToEntity(WishlistRequestDto wishlistRequestDto);
+
+    static WishlistDto toDto(Wishlist wishlist) {
+        if (wishlist == null)
+            return null;
+
+        return new WishlistDto(
+                wishlist.getId(),
+                wishlist.getBook().getId(),
+                wishlist.getBook().getTitle()
+        );
+    }
 }

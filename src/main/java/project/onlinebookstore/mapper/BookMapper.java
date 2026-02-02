@@ -13,10 +13,16 @@ import java.util.List;
 public interface BookMapper {
 
         @Mapping(target = "categoryName", source = "category.name")
-        BookDto mapToDto(Book books);
+        BookDto mapToDto(Book book);
 
-        List<BookDto> maptoDtoList(List<Book> books);
 
-        Book mapToEntity(BookRequestDto bookRequestDto);
+          default Book mapToEntity(BookRequestDto bookRequestDto){
+            Book book = new Book();
+            book.setTitle(bookRequestDto.getTitle());
+            book.setAuthor(bookRequestDto.getAuthor());
+            book.setPrice(bookRequestDto.getPrice());
+              book.setQuantity(bookRequestDto.getQuantity());
+            return book;
+        }
 
     }

@@ -8,4 +8,6 @@ public class BookRequestDto {
     private String author;
     private Double price;
     private Long categoryId;
+    private Integer quantity;
+
 }

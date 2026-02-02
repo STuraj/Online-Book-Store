@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.onlinebookstore.dto.wishlist.WishlistDto;
 import project.onlinebookstore.dto.wishlist.WishlistRequestDto;
+import project.onlinebookstore.entity.Book;
+import project.onlinebookstore.entity.User;
 import project.onlinebookstore.entity.Wishlist;
 import project.onlinebookstore.exception.NotFoundException;
 import project.onlinebookstore.mapper.WishlistMapper;
 import project.onlinebookstore.repository.BookRepository;
+import project.onlinebookstore.repository.UserRepository;
 import project.onlinebookstore.repository.WishlistRepository;
 
 import java.util.List;
@@ -16,28 +19,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WishlistService {
 
-        private final WishlistRepository wishlistRepository;
-        private final WishlistMapper wishlistMapper;
-        private final BookRepository bookRepository;
+    private final WishlistRepository wishlistRepository;
+    private final UserRepository userRepository;
+    private final BookRepository bookRepository;
+    private final WishlistMapper wishlistMapper;
 
-        public WishlistDto getWishlistById(Long id) {
-            Wishlist wishlist = wishlistRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Wishlist not found with id:" + id));
-            return wishlistMapper.mapToDto(wishlist);
+    public WishlistDto addWishlist(Long userId, Long bookId) {
+        if (wishlistRepository.existsByUserIdAndBookId(userId, bookId)) {
+            throw new RuntimeException("Book already in wishlist");
         }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        public List<WishlistDto> getAll() {
-            return wishlistRepository.findAll()
-                    .stream()
-                    .map(wishlistMapper::mapToDto)
-                    .toList();
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException("Book not found"));
 
-        }
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
+        wishlist.setBook(book);
 
-        public WishlistDto addWishlist(WishlistRequestDto wishlistRequestDto) {
-            Wishlist wishlist = wishlistMapper.mapToEntity(wishlistRequestDto);
-            Wishlist wishlistSaved = wishlistRepository.save(wishlist);
-            return wishlistMapper.mapToDto(wishlistSaved);
+        Wishlist savedWishlist = wishlistRepository.save(wishlist);
 
-        }
+        return WishlistMapper.toDto(savedWishlist);
+    }
+
+    public void removeFromWishlist(Long wishlistId) {
+        wishlistRepository.deleteById(wishlistId);
+    }
+
+    public List<WishlistDto> getUserWishlist(Long userId) {
+        return wishlistRepository.findByUserId(userId)
+                .stream()
+                .map(WishlistMapper::toDto)
+                .toList();
+    }
 }
+

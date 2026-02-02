@@ -12,4 +12,6 @@ public class CartItemRequestDto {
 
     private Long book_id;
     private Integer quantity;
+
+
 }

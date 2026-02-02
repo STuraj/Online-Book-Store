@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class CartRequestDto {
 
         private Long book_id;
+        private Long user_id;
         private Integer quantity;
 
 }

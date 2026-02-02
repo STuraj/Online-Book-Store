@@ -19,11 +19,7 @@ public class Book {
         @Column(nullable = false)
         private String author;
 
-        private Integer publishYear;
-        private String genre;
 
-        @Column(unique = true)
-        private String isbn;
 
         @Column(nullable = false)
         private Double price;

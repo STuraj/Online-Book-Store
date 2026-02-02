@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItemDto {
+
     private Long id;
     private String bookTitle;
     private Integer quantity;

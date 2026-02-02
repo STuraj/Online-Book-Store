@@ -12,8 +12,5 @@ public class WishlistDto {
         private Long id;
         private Long bookId;
         private String bookTitle;
-        private String bookAuthor;
-        private Double price;
-        private boolean inStock;
 
     }

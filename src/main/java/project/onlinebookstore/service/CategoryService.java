@@ -23,22 +23,30 @@ public class CategoryService {
             return categoryMapper.mapToDto(category);
         }
 
-        public CategoryDto save(CategoryDto categoryRequestDto) {
-            Category category = categoryMapper.mapToEntity(categoryRequestDto);
-            Category savedCategory = categoryRepository.save(category);
-            return categoryMapper.mapToDto(savedCategory);
+    public CategoryDto save(CategoryDto dto) {
+        Category category = new Category();
+        category.setName(dto.getName());
+        Category saved = categoryRepository.save(category);
+        return mapToDto(saved);
+        
         }
 
-        public List<Category> getAll() {
+    private CategoryDto mapToDto(Category category) {
+        CategoryDto dto = new CategoryDto();
+        dto.setName(category.getName());
+                return dto;
+    }
+
+    public List<Category> getAll() {
             return categoryRepository.findAll();
         }
 
         public CategoryDto update(Long id, CategoryDto dto) {
             Category category = categoryRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Category not found!"));
-            Category categorySaved = categoryMapper.update(dto,category);
-            categoryRepository.save(categorySaved);
-            return categoryMapper.mapToDto(category);
+            category.setName(dto.getName());
+            Category updated = categoryRepository.save(category);
+            return mapToDto(updated);
         }
 
 

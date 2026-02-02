@@ -18,6 +18,8 @@ import project.onlinebookstore.repository.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -38,8 +40,10 @@ public class OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setOrderStatus(OrderStatus.CREATED);
+
         List<OrderItem> items = new ArrayList<>();
         double totalPrice = 0;
+        int totalQuantity = 0;
 
         //order items
         for (OrderItemRequestDto itemRequestDto : orderRequestDto.getItems()) {
@@ -51,12 +55,19 @@ public class OrderService {
             orderItem.setQuantity(itemRequestDto.getQuantity());
             orderItem.setPrice(book.getPrice());
             orderItem.setOrder(order);
+
             totalPrice += book.getPrice() * itemRequestDto.getQuantity();
+            totalQuantity += itemRequestDto.getQuantity();
+
             items.add(orderItem);
         }
+
         order.setOrderItems(items);
         order.setTotalPrice(totalPrice);
+        order.setOrderQuantity(totalQuantity);
+
         orderRepository.save(order);
+
         return mapToDto(order);
     }
 
@@ -70,7 +81,7 @@ public class OrderService {
     }
 
     public List<OrderDto> getOrdersByUser(Long userId) {
-        return orderRepository.findById(userId)
+        return orderRepository.findAllByUserId(userId)
                 .stream()
                 .map(this::mapToDto)
                 .toList();
@@ -97,11 +108,29 @@ public class OrderService {
     }
 
     private OrderDto mapToDto(Order order) {
+        //OrderItem-lari map etmek
+        List<OrderItemDto> orderItemDto = order.getOrderItems()
+                .stream()
+                .map(item -> new OrderItemDto(
+                        item.getId(),
+                        item.getBook().getTitle(),
+                        item.getQuantity(),
+                        item.getPrice()
+                ))
+        .toList();
+
+        int totalQuantity = order.getOrderItems()
+                .stream()
+                .mapToInt(OrderItem::getQuantity)
+                .sum();
+
         return new OrderDto(
                 order.getId(),
+                totalQuantity,
+                order.getTotalPrice(),
                 order.getOrderStatus(),
-                order.getTotalPrice());
-
+        orderItemDto
+                );
 
     }
 }

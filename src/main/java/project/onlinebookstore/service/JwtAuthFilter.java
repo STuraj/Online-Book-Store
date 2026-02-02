@@ -13,6 +13,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -21,12 +23,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailServiceImpl userDetailService;
 
+    private static final List<String> EXCLUDED_PATHS = Arrays.asList(
+            "/swagger-ui",
+            "/v3/api-docs",
+            "/api/auth",
+            "/api/books"
+    );
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.startsWith ("/swagger-ui")
-        || path.startsWith("/v3/api-docs")
-                ||  path.startsWith("/api/auth");
+        return EXCLUDED_PATHS.stream()
+                .anyMatch(path::startsWith);
+
 
     }
 

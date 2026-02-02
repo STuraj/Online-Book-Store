@@ -8,11 +8,13 @@ import project.onlinebookstore.dto.cart.CartItemRequestDto;
 import project.onlinebookstore.entity.Book;
 import project.onlinebookstore.entity.Cart;
 import project.onlinebookstore.entity.CartItem;
+import project.onlinebookstore.entity.User;
 import project.onlinebookstore.exception.NotFoundException;
 import project.onlinebookstore.mapper.CartMapper;
 import project.onlinebookstore.repository.BookRepository;
 import project.onlinebookstore.repository.CartItemRepository;
 import project.onlinebookstore.repository.CartRepository;
+import project.onlinebookstore.repository.UserRepository;
 
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class CartService {
         private final CartMapper cartMapper;
         private final CartItemRepository cartItemRepository;
         private final BookRepository bookRepository;
+        private final UserRepository userRepository;
+
 
         public CartDto getById(long id) {
             
@@ -36,7 +40,7 @@ public class CartService {
 @Transactional
         public CartDto addItemToCart(Long userId, CartItemRequestDto itemRequestDto) {
             //user-e gore sebeti tapmaq veya yenisin yaratmaq
-            Cart cart = cartRepository.findById(userId)
+            Cart cart = cartRepository.findByUser_Id(userId)
                     .orElseGet(() -> createNewCart(userId));
 
             // Kitab mocuddurmu
@@ -87,10 +91,11 @@ public class CartService {
         }
 
        private Cart createNewCart(Long userId) {
+
+            User user = userRepository.findById(userId)
+                    .orElseThrow(()-> new NotFoundException("User not found!"));
             Cart cart = new Cart();
-//            User user = userRepository.findById(userId)
-//                    .orElseThrow(()-> new NotFoundException("User not found!"));
-//           cart.setUser(user);
+           cart.setUser(user);
            cart.setTotalPrice(0.0);
            cart.setCartItems(new ArrayList<>());
            return cartRepository.save(cart);
