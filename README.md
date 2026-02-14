@@ -1,6 +1,6 @@
-# 📚 Online Book Store – Spring Boot Application
+#  Online Book Store – Spring Boot Application
 
-## 📌 Project Description
+##  Project Description
 Online Book Store is a backend RESTful application built using Spring Boot.  
 It allows users to browse books, manage cart items, and handle authentication with role-based authorization.
 
@@ -8,7 +8,7 @@ This project was developed as a hands-on practice to improve backend development
 
 ---
 
-## 🚀 Features
+##  Features
 
 - User registration and login
 - JWT-based authentication
@@ -20,7 +20,7 @@ This project was developed as a hands-on practice to improve backend development
 
 ---
 
-## 🛠 Technologies Used
+##  Technologies Used
 
 - Java 21
 - Spring Boot
@@ -33,7 +33,7 @@ This project was developed as a hands-on practice to improve backend development
 - Git & GitHub
 
 ---
-## 🎯 Purpose of the Project
+##  Purpose of the Project
 
 This project was created to practice:
 - Backend development with Spring Boot
