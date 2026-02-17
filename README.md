@@ -17,6 +17,7 @@ This project was developed as a hands-on practice to improve backend development
 - Shopping cart management
 - Order processing
 - API documentation with Swagger
+- local host 8083
 
 ---
 
